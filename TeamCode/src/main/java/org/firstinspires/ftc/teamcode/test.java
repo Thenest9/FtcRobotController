@@ -25,22 +25,63 @@ public class test extends OpMode
     {
         telemetry.addData("Initialize", "called");
         FrontLeft = hardwareMap.get(DcMotor.class,"FrontLeft");// MOTOR 0
-        FrontRight = hardwareMap.get(DcMotor.class,"FrontRight");// MOTOR 1
-        RearLeft = hardwareMap.get(DcMotor.class,"RearLeft");// MOTOR 2
-        RearRight = hardwareMap.get(DcMotor.class,"RearRight");// MOTOR 3
+        FrontRight = hardwareMap.get(DcMotor.class,"FrontRight");// MOTOR 3
+        RearLeft = hardwareMap.get(DcMotor.class,"RearLeft");// MOTOR 1
+        RearRight = hardwareMap.get(DcMotor.class,"RearRight");// MOTOR 2
     }
 
     @Override
     public void loop()
     {
-
-        ForwardMovement();
+        ForwardBackwardMovement();
+        turnLeft();
+        turnRight();
     }
     public void turnLeft()
     {
-        
+        //will turn left
+        //turn left code
+
+        if(gamepad2.right_stick_x<0)
+        {
+            telemetry.addData("Left method", "called");
+            FrontLeft.setPower(-0.2);
+            FrontRight.setPower(0.2);
+            RearLeft.setPower(0.2);
+            RearRight.setPower(-0.2);
+        }
+        else
+        {
+            FrontLeft.setPower(0.0);
+            FrontRight.setPower(0.0);
+            RearLeft.setPower(0.0);
+            RearRight.setPower(0.0);
+
+        }
     }
-    public void ForwardMovement()
+
+    public void turnRight()
+    {
+
+        //will turn right
+        if(gamepad2.right_stick_x>0)
+        {
+            telemetry.addData("Right method", "called");
+            FrontLeft.setPower(0.2);
+            FrontRight.setPower(-0.2);
+            RearLeft.setPower(-0.2);
+            RearRight.setPower(0.2);
+        }
+        else
+        {
+            FrontLeft.setPower(0.0);
+            FrontRight.setPower(0.0);
+            RearLeft.setPower(0.0);
+            RearRight.setPower(0.0);
+
+        }
+    }
+    public void ForwardBackwardMovement()
     {
         telemetry.addData("Loop", "called");
 
@@ -49,10 +90,10 @@ public class test extends OpMode
             telemetry.addData("Left Joy Stick Y", "called");
 
             //Move the robot in the forward direction
-            FrontLeft.setPower(0.2);
-            FrontRight.setPower(-0.2);
-            RearLeft.setPower(0.2);
-            RearRight.setPower(-0.2);
+            FrontLeft.setPower(0.5);
+            FrontRight.setPower(-0.5);
+            RearLeft.setPower(0.5);
+            RearRight.setPower(-0.5);
 
         }
         if(gamepad2.left_stick_y < 0)// if gamepad2 left joystick is pushed down
@@ -60,10 +101,10 @@ public class test extends OpMode
             telemetry.addData("Left Joy Stick -Y", "called");
 
             //Move the robot in the reverse direction
-            FrontLeft.setPower(-0.2);
-            FrontRight.setPower(0.2);
-            RearLeft.setPower(-0.2);
-            RearRight.setPower(0.2);
+            FrontLeft.setPower(-0.5);
+            FrontRight.setPower(0.5);
+            RearLeft.setPower(-0.5);
+            RearRight.setPower(0.5);
         }
         else
         {
