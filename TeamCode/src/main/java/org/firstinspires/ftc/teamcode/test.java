@@ -29,8 +29,8 @@ public class test extends OpMode
         telemetry.addData("Initialize", "called");
         FrontLeft = hardwareMap.get(DcMotor.class,"FrontLeft");// MOTOR 0
         FrontRight = hardwareMap.get(DcMotor.class,"FrontRight");// MOTOR 3
-        RearLeft = hardwareMap.get(DcMotor.class,"RearLeft");// MOTOR 1
-        RearRight = hardwareMap.get(DcMotor.class,"RearRight");// MOTOR 2
+        RearLeft = hardwareMap.get(DcMotor.class,"RearLeft");// MOTOR 2
+        RearRight = hardwareMap.get(DcMotor.class,"RearRight");// MOTOR 1
     }
 
     @Override
@@ -79,7 +79,7 @@ public class test extends OpMode
         {
             telemetry.addData("Left method", "called");
 
-            setMotorsPower(-motorSpeed,motorSpeed,-motorSpeed,motorSpeed);
+            setMotorsPower(-motorSpeed,-motorSpeed,-motorSpeed,motorSpeed);
         }
         else
         {
@@ -97,7 +97,7 @@ public class test extends OpMode
         if(gamepad2.right_stick_x>0)
         {
             telemetry.addData("Right method", "called");
-            setMotorsPower(motorSpeed,-motorSpeed,motorSpeed,motorSpeed);
+            setMotorsPower(motorSpeed,motorSpeed,motorSpeed,motorSpeed);
         }
         else
         {
@@ -117,17 +117,17 @@ public class test extends OpMode
             telemetry.addData("Left Joy Stick Y", gamepad2.left_stick_y);
 
             //Move the robot in the forward direction
-            setMotorsPower(motorSpeed, -motorSpeed, motorSpeed, -motorSpeed);
+            setMotorsPower(motorSpeed, -motorSpeed, -motorSpeed, motorSpeed);
         }
-        if (gamepad2.left_stick_y > 0.0 && gamepad2.left_stick_x < 0.0)//forward left diagonal
-        {
-            setMotorsPower(0.0, -motorSpeed, motorSpeed, 0.0);
-        }
-
-        if (gamepad2.left_stick_y > 0.0 && gamepad2.left_stick_x > 0.0)//forward right diagonal
-        {
-            setMotorsPower(motorSpeed, 0.0, 0.0, -motorSpeed);
-        }
+//        if (gamepad2.left_stick_y > 0.0 && gamepad2.left_stick_x < 0.0)//forward left diagonal
+//        {
+//            setMotorsPower(0.0, -motorSpeed, motorSpeed, 0.0);
+//        }
+//
+//        if (gamepad2.left_stick_y > 0.0 && gamepad2.left_stick_x > 0.0)//forward right diagonal
+//        {
+//            setMotorsPower(motorSpeed, 0.0, 0.0, -motorSpeed);
+//        }
 
         else
         {
@@ -144,17 +144,17 @@ public class test extends OpMode
             telemetry.addData("Left Joy Stick -Y", "called");
 
             //Move the robot in the reverse direction
-            setMotorsPower(-motorSpeed,motorSpeed,-motorSpeed,motorSpeed);
+            setMotorsPower(-motorSpeed,motorSpeed,motorSpeed,-motorSpeed);
         }
-        if (gamepad2.left_stick_y < 0.0 && gamepad2.left_stick_x < 0.0)//Back left diagonal
-        {
-            setMotorsPower(-motorSpeed, 0.0, 0.0, motorSpeed);
-        }
-
-        if (gamepad2.left_stick_y < 0.0 && gamepad2.left_stick_x > 0)//Back right diagonal
-        {
-            setMotorsPower(0.0, motorSpeed, -motorSpeed, 0.0);
-        }// I love typing documentation
+//        if (gamepad2.left_stick_y < 0.0 && gamepad2.left_stick_x < 0.0)//Back left diagonal
+//        {
+//            setMotorsPower(-motorSpeed, 0.0, 0.0, motorSpeed);
+//        }
+//
+//        if (gamepad2.left_stick_y < 0.0 && gamepad2.left_stick_x > 0)//Back right diagonal
+//        {
+//            setMotorsPower(0.0, motorSpeed, -motorSpeed, 0.0);
+        //}// I love typing documentation
         else
         {
             FrontLeft.setPower(0.0);
