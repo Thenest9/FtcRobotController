@@ -22,10 +22,15 @@ public class test extends OpMode
     DcMotor FrontRight;
     DcMotor RearLeft;
     DcMotor RearRight;
-
+    DcMotor outputRight;
+    // Hasn't been tested yet
+    DcMotor outputLeft;
+    // Hasn't been tested yet.
     CRServo leftIntake;
 
     CRServo rightIntake;
+
+    CRServo carousel;
 
     //left clockwise
     //right counter
@@ -41,23 +46,31 @@ public class test extends OpMode
         RearLeft = hardwareMap.get(DcMotor.class,"RearLeft");// MOTOR 1
         RearRight = hardwareMap.get(DcMotor.class,"RearRight");// MOTOR 2
 
+        outputRight = hardwareMap.get(DcMotor.class, "RightOutput");
+        outputLeft = hardwareMap.get(DcMotor.class, "LeftOutput");
+
         rightIntake = hardwareMap.get(CRServo.class, "IntakeRight");
         leftIntake = hardwareMap.get(CRServo.class, "IntakeLeft");
+
+        carousel = hardwareMap.get(CRServo.class, "Carousel");
+        // doesn't have a class yet
     }
 
     @Override
     public void loop()
     {
-        setPowerSpeed();
+        SetPowerSpeed();
         ForwardMovement();
         BackwardMovement();
-        moveLeft();
-        moveRight();
-        servoMovement();
-
+        MoveLeft();
+        MoveRight();
+        ServoMovement();
+        TurnRight();
+        TurnLeft();
+        LaunchMotors();
     }
 
-    public void servoMovement()
+    public void ServoMovement()
     {
         // To do: Needs more power
         if(gamepad1.triangle)
@@ -80,7 +93,7 @@ public class test extends OpMode
 
     }
 
-    public void setPowerSpeed()
+    public void SetPowerSpeed()
     {
         telemetry.addData("setPowerSpeed", "called");
         if(gamepad1.dpadUpWasPressed())
@@ -132,7 +145,7 @@ public class test extends OpMode
         RearRight.setPower(0.0);
     }
 }
-    public void moveLeft()//Commments are pog
+    public void MoveLeft()//Commments are pog
     {
         //will turn left
         //turn left code
@@ -153,10 +166,10 @@ public class test extends OpMode
 
         }//This is a comment
     }
-    public void moveRight()
+    public void MoveRight()
     {
 
-        //will turn right
+        //will move right
         if(gamepad1.left_stick_x>0)
         {
             telemetry.addData("joystick X:", gamepad1.left_stick_x);
@@ -199,6 +212,40 @@ public class test extends OpMode
             FrontRight.setPower(0.0);
             RearLeft.setPower(0.0);
             RearRight.setPower(0.0);
+        }
+    }
+
+    public void TurnRight()
+    {
+        if(gamepad1.right_stick_x>0)
+        {
+            telemetry.addData("joystick X:", gamepad1.right_stick_x);
+            setMotorsPower(-motorSpeed, -motorSpeed, -motorSpeed, -motorSpeed);
+        }
+
+    }
+
+    public void TurnLeft()
+    {
+        if(gamepad1.right_stick_x<0)
+        {
+            telemetry.addData("joystick X:", gamepad1.right_stick_x);
+            setMotorsPower(motorSpeed, motorSpeed, motorSpeed, motorSpeed);
+        }
+
+    }
+
+    public void LaunchMotors()
+    {
+        if(gamepad1.right_bumper)
+        {
+            outputRight.setPower(0.1);
+            outputLeft.setPower(0.1);
+        }
+        else
+        {
+            outputRight.setPower(0.0);
+            outputLeft.setPower(0.0);
         }
     }
 
