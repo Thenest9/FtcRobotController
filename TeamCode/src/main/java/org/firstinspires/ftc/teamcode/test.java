@@ -20,6 +20,9 @@ public class test extends OpMode
     DcMotor FrontRight;
     DcMotor RearLeft;
     DcMotor RearRight;
+
+    double motorSpeed = 0.2;
+
     @Override
     public void init()
     {
@@ -33,22 +36,50 @@ public class test extends OpMode
     @Override
     public void loop()
     {
-        ForwardBackwardMovement();
+        setPowerSpeed();
+        ForwardMovement();
+        BackwardMovement();
         turnLeft();
         turnRight();
+
     }
-    public void turnLeft()
+
+    public void setPowerSpeed()
+    {
+        telemetry.addData("setPowerSpeed", "called");
+        if(gamepad2.dpadUpWasPressed())
+        {
+            telemetry.addData("dpad_up", "called");
+            //If motor speed is less then 1 then increase by .1
+            motorSpeed += motorSpeed < 0.9 ? 0.1 : 0;
+        }
+        if(gamepad2.dpadDownWasPressed())
+        {
+            telemetry.addData("dpad_down", "called");
+            //If motor speed is greater then -1 then decrease by .1
+            motorSpeed += motorSpeed > 0.2 ? -0.1 : 0;
+        }
+
+        telemetry.addData("motor_speed", motorSpeed);
+    }
+    public void setMotorsPower(double fLSpeed,double fRSpeed,double rLSpeed,double rRSpeed)
+    {
+        FrontLeft.setPower(fLSpeed);
+        FrontRight.setPower(fRSpeed);
+        RearLeft.setPower(rLSpeed);
+        RearRight.setPower(rRSpeed);
+    }
+    public void turnLeft()//Commments are pog
     {
         //will turn left
         //turn left code
 
+
         if(gamepad2.right_stick_x<0)
         {
             telemetry.addData("Left method", "called");
-            FrontLeft.setPower(-0.2);
-            FrontRight.setPower(0.2);
-            RearLeft.setPower(0.2);
-            RearRight.setPower(-0.2);
+
+            setMotorsPower(-motorSpeed,motorSpeed,-motorSpeed,motorSpeed);
         }
         else
         {
@@ -57,9 +88,8 @@ public class test extends OpMode
             RearLeft.setPower(0.0);
             RearRight.setPower(0.0);
 
-        }
+        }//This is a comment
     }
-
     public void turnRight()
     {
 
@@ -67,10 +97,7 @@ public class test extends OpMode
         if(gamepad2.right_stick_x>0)
         {
             telemetry.addData("Right method", "called");
-            FrontLeft.setPower(0.2);
-            FrontRight.setPower(-0.2);
-            RearLeft.setPower(-0.2);
-            RearRight.setPower(0.2);
+            setMotorsPower(motorSpeed,-motorSpeed,motorSpeed,motorSpeed);
         }
         else
         {
@@ -80,32 +107,54 @@ public class test extends OpMode
             RearRight.setPower(0.0);
 
         }
-    }
-    public void ForwardBackwardMovement()
-    {
-        telemetry.addData("Loop", "called");
 
-        if(gamepad2.left_stick_y > 0)// if gamepad2 left joystick is pushed up
+
+    }
+    public void ForwardMovement()
+    {
+        if (gamepad2.left_stick_y > 0)// if gamepad2 left joystick is pushed up
         {
-            telemetry.addData("Left Joy Stick Y", "called");
+            telemetry.addData("Left Joy Stick Y", gamepad2.left_stick_y);
 
             //Move the robot in the forward direction
-            FrontLeft.setPower(0.5);
-            FrontRight.setPower(-0.5);
-            RearLeft.setPower(0.5);
-            RearRight.setPower(-0.5);
-
+            setMotorsPower(motorSpeed, -motorSpeed, motorSpeed, -motorSpeed);
         }
-        if(gamepad2.left_stick_y < 0)// if gamepad2 left joystick is pushed down
+        if (gamepad2.left_stick_y > 0.0 && gamepad2.left_stick_x < 0.0)//forward left diagonal
+        {
+            setMotorsPower(0.0, -motorSpeed, motorSpeed, 0.0);
+        }
+
+        if (gamepad2.left_stick_y > 0.0 && gamepad2.left_stick_x > 0.0)//forward right diagonal
+        {
+            setMotorsPower(motorSpeed, 0.0, 0.0, -motorSpeed);
+        }
+
+        else
+        {
+            FrontLeft.setPower(0.0);
+            FrontRight.setPower(0.0);
+            RearLeft.setPower(0.0);
+            RearRight.setPower(0.0);
+        }
+    }
+    public void BackwardMovement()
+    {
+        if(gamepad2.left_stick_y < 0)// straight backward
         {
             telemetry.addData("Left Joy Stick -Y", "called");
 
             //Move the robot in the reverse direction
-            FrontLeft.setPower(-0.5);
-            FrontRight.setPower(0.5);
-            RearLeft.setPower(-0.5);
-            RearRight.setPower(0.5);
+            setMotorsPower(-motorSpeed,motorSpeed,-motorSpeed,motorSpeed);
         }
+        if (gamepad2.left_stick_y < 0.0 && gamepad2.left_stick_x < 0.0)//Back left diagonal
+        {
+            setMotorsPower(-motorSpeed, 0.0, 0.0, motorSpeed);
+        }
+
+        if (gamepad2.left_stick_y < 0.0 && gamepad2.left_stick_x > 0)//Back right diagonal
+        {
+            setMotorsPower(0.0, motorSpeed, -motorSpeed, 0.0);
+        }// I love typing documentation
         else
         {
             FrontLeft.setPower(0.0);
