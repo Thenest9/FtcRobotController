@@ -117,13 +117,13 @@ public class VvhsTeleop extends OpMode
     }
     public void BackwardMovement()
     {
-    if(gamepad1.left_stick_y > 0)// straight backward
-    {
-        telemetry.addData("Left Joy Stick -Y", "called");
+        if(gamepad1.left_stick_y > 0)// straight backward
+        {
+            telemetry.addData("Left Joy Stick -Y", "called");
 
-        //Move the robot in the reverse direction
-        setMotorsPower(motorSpeed,-motorSpeed,motorSpeed,-motorSpeed);
-    }
+            //Move the robot in the reverse direction
+            setMotorsPower(motorSpeed,-motorSpeed,motorSpeed,-motorSpeed);
+        }
 //        if (gamepad1.left_stick_y < 0.0 && gamepad1.left_stick_x < 0.0)//Back left diagonal
 //        {
 //            setMotorsPower(-motorSpeed, 0.0, 0.0, motorSpeed);
@@ -132,15 +132,15 @@ public class VvhsTeleop extends OpMode
 //        if (gamepad1.left_stick_y < 0.0 && gamepad1.left_stick_x > 0)//Back right diagonal
 //        {
 //            setMotorsPower(0.0, motorSpeed, -motorSpeed, 0.0);
-    //}// I love typing documentation
-    else
-    {
-        FrontLeft.setPower(0.0);
-        FrontRight.setPower(0.0);
-        RearLeft.setPower(0.0);
-        RearRight.setPower(0.0);
+        //}// I love typing documentation
+        else
+        {
+            FrontLeft.setPower(0.0);
+            FrontRight.setPower(0.0);
+            RearLeft.setPower(0.0);
+            RearRight.setPower(0.0);
+        }
     }
-}
     public void StrafeLeft()//Commments are pog
     {
         //will turn left
