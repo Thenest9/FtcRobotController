@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "VvhsTeleop")
-public class VvhsTeleop extends OpMode
+public class VvhsTeleop extends LinearOpMode
 {
 
     DcMotor FrontLeft;
@@ -28,8 +29,7 @@ public class VvhsTeleop extends OpMode
 
     double motorSpeed = 0.2;
 
-    @Override
-    public void init()//initalizes all Motors and servos.
+    public void runOpMode()
     {
         telemetry.addData("Initialize", "called");
         FrontLeft = hardwareMap.get(DcMotor.class,"FrontLeft");// MOTOR 0
@@ -44,21 +44,21 @@ public class VvhsTeleop extends OpMode
         leftIntake = hardwareMap.get(CRServo.class, "IntakeLeft");
 
         carousel = hardwareMap.get(CRServo.class, "Carousel");
-        // doesn't have a class yet
-    }
 
-    @Override
-    public void loop()//runs 50x a second.
-    {
-        ChangeMotorPowerSpeed();
-        ForwardMovement();
-        BackwardMovement();
-        StrafeLeft();
-        StrafeRight();
-        ServoMovement();
-        TurnRight();
-        TurnLeft();
-        LaunchMotors();
+        waitForStart();
+
+        while(opModeIsActive())
+        {
+            ChangeMotorPowerSpeed();
+            ForwardMovement();
+            BackwardMovement();
+            StrafeLeft();
+            StrafeRight();
+            ServoMovement();
+            TurnRight();
+            TurnLeft();
+            LaunchMotors();
+        }
     }
 
 
@@ -66,13 +66,13 @@ public class VvhsTeleop extends OpMode
     public void ChangeMotorPowerSpeed()//changes MOTOR MOVEMENT Speed using M1 and M@
     {
         telemetry.addData("setPowerSpeed", "called");
-        if(gamepad1.dpadUpWasPressed())//M1
+        if(gamepad1.dpad_up)//M1
         {
             telemetry.addData("dpad_up", "called");
             //If motor speed is less then 1 then increase by .1
             motorSpeed += motorSpeed < 0.9 ? 0.1 : 0;
         }
-        if(gamepad1.dpadDownWasPressed())//M2
+        if(gamepad1.dpad_down)//M2
         {
             telemetry.addData("dpad_down", "called");
             //If motor speed is greater then -1 then decrease by .1
@@ -210,14 +210,14 @@ public class VvhsTeleop extends OpMode
         if(gamepad1.triangle)
         {
             // move to 0 degrees.
-            leftIntake.setPower(-100);
-            rightIntake.setPower(100);
+            leftIntake.setPower(-1);
+            rightIntake.setPower(1);
         }
         if(gamepad1.square)
         {
             // move to 0 degrees.
-            leftIntake.setPower(100);
-            rightIntake.setPower(-100);
+            leftIntake.setPower(1);
+            rightIntake.setPower(-1);
         }
         else
         {
